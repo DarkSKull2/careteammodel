@@ -1,0 +1,831 @@
+---
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: "Care Team Rest API u"
+paths:
+  /patients/{patientId}/care-team-notes:
+    get:
+      tags:
+      - "Care Team Notes"
+      summary: "Get Care Team Notes"
+      description: "The Notes endpoint returns all care team notes (and addendums)\
+        \ associated with a particular patient\n"
+      parameters:
+      - name: "patientId"
+        in: "path"
+        description: "Patient id that the care team note will be associated with."
+        required: true
+        type: "integer"
+        format: "int64;"
+      - name: "page"
+        in: "query"
+        description: "page to get"
+        required: false
+        type: "integer"
+        default: 0
+      - name: "size"
+        in: "query"
+        description: "size of records per page"
+        required: false
+        type: "integer"
+        default: 20
+      - name: "sort"
+        in: "query"
+        description: "attribute to sort by"
+        required: false
+        type: "string"
+        collectionFormat: "multi"
+      responses:
+        200:
+          description: "An array of care team notes"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Note"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      tags:
+      - "Notes"
+      summary: "Add Care Team Note"
+      description: "This endpoint will add a care team note to a patient\n"
+      parameters:
+      - name: "patientId"
+        in: "path"
+        description: "Patient id that the care team note will be associated with."
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "note"
+        description: "Care Team Note"
+        required: false
+        schema:
+          $ref: "#/definitions/Comment"
+      responses:
+        201:
+          description: "Care Team Note Created"
+          schema:
+            $ref: "#/definitions/Note"
+          headers:
+            location:
+              type: "string"
+              description: "A link to the created care team note"
+        400:
+          description: "bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+  /patients/{patientId}/care-team-notes/{noteId}:
+    delete:
+      tags:
+      - "Notes"
+      summary: "Delete Care Team Note"
+      description: "This endpoint will delete (soft) a care team note\n"
+      parameters:
+      - name: "patientId"
+        in: "path"
+        description: "Patient id that the note will be associated with"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "noteId"
+        in: "path"
+        description: "Note id"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        204:
+          description: "Care Team Note Deleted"
+        500:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+    patch:
+      tags:
+      - "Notes"
+      summary: "Edit Care Team Note"
+      description: "This endpoint will edit a care team note\n"
+      parameters:
+      - name: "patientId"
+        in: "path"
+        description: "Patient id that the care team note will be associated with"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "noteId"
+        in: "path"
+        description: "Note id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "note"
+        description: "Updated Care Team Note"
+        required: true
+        schema:
+          $ref: "#/definitions/Comment"
+      responses:
+        200:
+          description: "Care Team Note Updated"
+          schema:
+            $ref: "#/definitions/Note"
+          headers:
+            location:
+              type: "string"
+              description: "A link to the updated note"
+        400:
+          description: "bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+  /patients/{patientId}/care-team-notes/{noteId}/addendums:
+    post:
+      tags:
+      - "Addendums"
+      summary: "Add Addendum to Care Team Note"
+      description: "This endpoint will add an addendum to an existing note\n"
+      parameters:
+      - name: "patientId"
+        in: "path"
+        description: "Patient id that the note will be associated with."
+        required: true
+        type: "integer"
+        format: "int64;"
+      - name: "noteId"
+        in: "path"
+        description: "Note id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "addendum"
+        description: "Care Team Note Addendum"
+        required: true
+        schema:
+          $ref: "#/definitions/Comment"
+      responses:
+        201:
+          description: "Addendum Created"
+          schema:
+            $ref: "#/definitions/Addendum"
+          headers:
+            location:
+              type: "string"
+              description: "A link to the created addendum"
+        400:
+          description: "bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+  /patients/{patientId}/care-team/{careTeamId}/members:
+    get:
+      description: "Gets an array of `GenericMember` objects.\n"
+      parameters:
+      - name: "patientId"
+        in: "path"
+        description: "Patient Identifier"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "careTeamId"
+        in: "path"
+        description: "Care Team Identifierrt"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "page"
+        in: "query"
+        description: "page to get"
+        required: false
+        type: "integer"
+        default: 0
+      - name: "size"
+        in: "query"
+        description: "size of records per page"
+        required: false
+        type: "integer"
+        default: 20
+      - name: "sort"
+        in: "query"
+        description: "attribute to sordf yu 7"
+        required: false
+        type: "string"
+        collectionFormat: "multi"
+      - name: "filter"
+        in: "query"
+        description: "Care Team Identifier"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/Members"
+        400:
+          description: "bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+  /patients/{patientId}/care-team/{careTeamId}/members/custom:
+    post:
+      summary: "Add a Custom Member"
+      description: "Posts `CustomCareTeam` object.\n"
+      operationId: "addCustomMember"
+      parameters:
+      - name: "patientId"
+        in: "path"
+        description: "Patient Identifier"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "careTeamId"
+        in: "path"
+        description: "Care Team Identifierrt"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        description: "Custom Member"
+        required: true
+        schema:
+          $ref: "#/definitions/CustomMember"
+      responses:
+        201:
+          description: "Custom member is returned"
+          schema:
+            $ref: "#/definitions/CustomMember"
+          headers:
+            location:
+              type: "string"
+              description: "A link to the created resource"
+        400:
+          description: "bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+  /patients/{patientId}/care-team/{careTeamId}/members/custom/{memberId}:
+    get:
+      summary: "Get custom Member"
+      description: "Gets a `Member` object.\n"
+      operationId: "getCustomMember"
+      parameters:
+      - name: "patientId"
+        in: "path"
+        description: "Patient Identifier"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "careTeamId"
+        in: "path"
+        description: "Care Team Identifierrt"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "memberId"
+        in: "path"
+        description: "Care Team Member Identifier"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Care team member is returned"
+          schema:
+            $ref: "#/definitions/CustomMember"
+        400:
+          description: "bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+    patch:
+      summary: "Add a Custom Care Team Member"
+      description: "Puts a `CustomCareTeam` object.\n"
+      operationId: "editCustomMember"
+      parameters:
+      - name: "patientId"
+        in: "path"
+        description: "Patient Identifier"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "careTeamId"
+        in: "path"
+        description: "Care Team Identifierrt"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "memberId"
+        in: "path"
+        description: "Care Team Member Identifier"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "testname"
+        description: "Custom Care Team Member"
+        required: true
+        schema:
+          $ref: "#/definitions/CustomMember"
+      responses:
+        200:
+          description: "Custom member is returned"
+          schema:
+            $ref: "#/definitions/CustomMember"
+        400:
+          description: "bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+  /patients/{patientId}/care-team/{careTeamId}/members/provider:
+    post:
+      summary: "Add a Provider Member"
+      description: "Posts `ProviderMember` object.\n"
+      operationId: "addProviderMember"
+      parameters:
+      - name: "patientId"
+        in: "path"
+        description: "Patient Identifier"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "careTeamId"
+        in: "path"
+        description: "Care Team Identifierrt"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "providerMemberBody"
+        description: "Provider Member"
+        required: true
+        schema:
+          $ref: "#/definitions/ProviderMember"
+      responses:
+        201:
+          description: "Provider Member is returned"
+          schema:
+            $ref: "#/definitions/ProviderMember"
+          headers:
+            location:
+              type: "string"
+              description: "A link to access the created resource"
+        400:
+          description: "bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+  /patients/{patientId}/care-team/{careTeamId}/members/provider/{memberId}:
+    get:
+      summary: "Get provider Member"
+      description: "Gets a `ProviderMember` object.\n"
+      operationId: "getProviderMember"
+      parameters:
+      - name: "patientId"
+        in: "path"
+        description: "Patient Identifier"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "careTeamId"
+        in: "path"
+        description: "Care Team Identifierrt"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "memberId"
+        in: "path"
+        description: "Care Team Member Identifier"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Provider member is returned"
+          schema:
+            $ref: "#/definitions/ProviderMember"
+        400:
+          description: "bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+    patch:
+      summary: "Edit a Provider Team Member"
+      description: "Edit a `ProviderMember` object.\n"
+      operationId: "editProviderMember"
+      parameters:
+      - name: "patientId"
+        in: "path"
+        description: "Patient Identifier"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "careTeamId"
+        in: "path"
+        description: "Care Team Identifierrt"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "memberId"
+        in: "path"
+        description: "Care Team Member Identifier"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "providerMemberBody"
+        description: "Edit Provider Member"
+        required: true
+        schema:
+          $ref: "#/definitions/ProviderMember"
+      responses:
+        200:
+          description: "Provider member is returned"
+          schema:
+            $ref: "#/definitions/ProviderMember"
+        400:
+          description: "bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+  /patients/{patientId}/care-teams/{careTeamId}/members/primary:
+    get:
+      description: "Gets an array of `PrimaryMember` object.\nOptional query param\
+        \ of **size** determines.\nsize of returned array\n"
+      parameters:
+      - name: "patientId"
+        in: "path"
+        description: "Patient Identifier"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "careTeamId"
+        in: "path"
+        description: "Care Team Identifierrt"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "page"
+        in: "query"
+        description: "page to get"
+        required: false
+        type: "integer"
+        default: 0
+      - name: "size"
+        in: "query"
+        description: "size of records per page"
+        required: false
+        type: "integer"
+        default: 20
+      - name: "sort"
+        in: "query"
+        description: "attribute to sordf yu 7"
+        required: false
+        type: "string"
+        collectionFormat: "multi"
+      - name: "filter"
+        in: "query"
+        description: "Care Team Identifier"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/PrimaryMembers"
+        400:
+          description: "bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      summary: "Setting Primary Member for the team"
+      description: "Puts the current logged on user as the primary member.\n"
+      operationId: "addPrimaryMember"
+      parameters:
+      - name: "patientId"
+        in: "path"
+        description: "Patient Identifier"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "careTeamId"
+        in: "path"
+        description: "Care Team Identifierrt"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        201:
+          description: "Primary team member is returned"
+          schema:
+            $ref: "#/definitions/PrimaryMember"
+        400:
+          description: "bad request"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+definitions:
+  GenericMember:
+    required:
+    - "company"
+    - "email"
+    - "endDate"
+    - "fax"
+    - "firstName"
+    - "isPrimaryMember"
+    - "lastName"
+    - "memberId"
+    - "memberType"
+    - "phone"
+    - "role"
+    - "startDate"
+    properties:
+      memberId:
+        type: "integer"
+        format: "int64"
+      providerId:
+        type: "integer"
+        format: "int64"
+      memberType:
+        type: "string"
+      role:
+        type: "string"
+      firstName:
+        type: "string"
+      middleName:
+        type: "string"
+      lastName:
+        type: "string"
+      phone:
+        type: "string"
+      fax:
+        type: "string"
+      email:
+        type: "string"
+      company:
+        type: "string"
+      isPrimaryMember:
+        type: "boolean"
+      startDate:
+        type: "string"
+        format: "date"
+      endDate:
+        type: "string"
+        format: "date"
+  CustomMember:
+    required:
+    - "company"
+    - "email"
+    - "endDate"
+    - "fax"
+    - "firstName"
+    - "isPrimaryMember"
+    - "lastName"
+    - "memberId"
+    - "phone"
+    - "role"
+    - "startDate"
+    properties:
+      memberId:
+        type: "integer"
+        format: "int64"
+      memberType:
+        type: "string"
+      role:
+        type: "string"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      phone:
+        type: "string"
+      fax:
+        type: "string"
+      email:
+        type: "string"
+      company:
+        type: "string"
+      isPrimaryMember:
+        type: "boolean"
+      startDate:
+        type: "string"
+        format: "date"
+      endDate:
+        type: "string"
+        format: "date"
+  ProviderMember:
+    required:
+    - "endDate"
+    - "isPrimaryMember"
+    - "memberId"
+    - "providerId"
+    - "role"
+    - "startDate"
+    properties:
+      memberId:
+        type: "integer"
+        format: "int64"
+      providerId:
+        type: "integer"
+        format: "int64"
+      role:
+        type: "string"
+      isPrimaryMember:
+        type: "boolean"
+      startDate:
+        type: "string"
+        format: "date"
+      endDate:
+        type: "string"
+        format: "date"
+  PrimaryMember:
+    required:
+    - "endDate"
+    - "firstName"
+    - "lastName"
+    - "role"
+    - "startDate"
+    properties:
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      role:
+        type: "string"
+      startDate:
+        type: "string"
+        format: "date"
+      endDate:
+        type: "string"
+        format: "date"
+  Members:
+    type: "array"
+    items:
+      $ref: "#/definitions/GenericMember"
+  PrimaryMembers:
+    type: "array"
+    items:
+      $ref: "#/definitions/PrimaryMember"
+  Error:
+    required:
+    - "code"
+    - "message"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      message:
+        type: "string"
+  Note:
+    type: "object"
+    properties:
+      created:
+        type: "string"
+        format: "date-time"
+        description: "Date note was created."
+      author:
+        $ref: "#/definitions/Author"
+      permissions:
+        type: "array"
+        description: "permissible operations [Add,Edit,Addendums]"
+        items:
+          type: "string"
+      updated:
+        type: "string"
+        format: "date-time"
+        description: "Display when note was last updated."
+      comment:
+        type: "string"
+        description: "Content of the note/comment."
+        maxLength: 500
+      addendums:
+        type: "array"
+        items:
+          $ref: "#/definitions/Addendum"
+  Comment:
+    type: "string"
+    description: "comment used for creating and editing notes"
+  Author:
+    type: "object"
+    properties:
+      userId:
+        type: "integer"
+        format: "int32"
+        description: "user id of the note author"
+      lastName:
+        type: "string"
+        description: "Authors last name"
+      firstName:
+        type: "string"
+        description: "Authors first name"
+      title:
+        type: "string"
+        description: "Authors title"
+      middleInitial:
+        type: "string"
+        description: "Authors middle initial"
+    description: "Author of the note [Last, First MI, Title]."
+  Addendum:
+    type: "object"
+    properties:
+      created:
+        type: "string"
+        format: "date-time"
+        description: "Date addendum was created."
+      author:
+        type: "string"
+        description: "Author of the addendum [Last, First MI, Title]."
+      comment:
+        type: "string"
+        description: "Content of the note/comment."
+parameters:
+  patientId:
+    name: "patientId"
+    in: "path"
+    description: "Patient Identifier"
+    required: true
+    type: "integer"
+    format: "int64"
+  careTeamId:
+    name: "careTeamId"
+    in: "path"
+    description: "Care Team Identifierrt"
+    required: true
+    type: "integer"
+    format: "int64"
+  memberId:
+    name: "memberId"
+    in: "path"
+    description: "Care Team Member Identifier"
+    required: true
+    type: "integer"
+    format: "int64"
+  page:
+    name: "page"
+    in: "query"
+    description: "page to get"
+    required: false
+    type: "integer"
+    default: 0
+  size:
+    name: "size"
+    in: "query"
+    description: "size of records per page"
+    required: false
+    type: "integer"
+    default: 20
+  sort:
+    name: "sort"
+    in: "query"
+    description: "attribute to sordf yu 7"
+    required: false
+    type: "string"
+    collectionFormat: "multi"
+  filter:
+    name: "filter"
+    in: "query"
+    description: "Care Team Identifier"
+    required: false
+    type: "string"
