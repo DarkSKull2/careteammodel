@@ -197,7 +197,7 @@ paths:
       parameters:
       - name: "patientId"
         in: "path"
-        description: "Patient Identifier"
+        description: "Patient Identifier u"
         required: true
         type: "integer"
         format: "int64"
@@ -251,7 +251,7 @@ paths:
       parameters:
       - name: "patientId"
         in: "path"
-        description: "Patient Identifier"
+        description: "Patient Identifier u"
         required: true
         type: "integer"
         format: "int64"
@@ -292,7 +292,7 @@ paths:
       parameters:
       - name: "patientId"
         in: "path"
-        description: "Patient Identifier"
+        description: "Patient Identifier u"
         required: true
         type: "integer"
         format: "int64"
@@ -328,7 +328,7 @@ paths:
       parameters:
       - name: "patientId"
         in: "path"
-        description: "Patient Identifier"
+        description: "Patient Identifier u"
         required: true
         type: "integer"
         format: "int64"
@@ -371,7 +371,7 @@ paths:
       parameters:
       - name: "patientId"
         in: "path"
-        description: "Patient Identifier"
+        description: "Patient Identifier u"
         required: true
         type: "integer"
         format: "int64"
@@ -412,7 +412,7 @@ paths:
       parameters:
       - name: "patientId"
         in: "path"
-        description: "Patient Identifier"
+        description: "Patient Identifier u"
         required: true
         type: "integer"
         format: "int64"
@@ -448,7 +448,7 @@ paths:
       parameters:
       - name: "patientId"
         in: "path"
-        description: "Patient Identifier"
+        description: "Patient Identifier u"
         required: true
         type: "integer"
         format: "int64"
@@ -490,7 +490,7 @@ paths:
       parameters:
       - name: "patientId"
         in: "path"
-        description: "Patient Identifier"
+        description: "Patient Identifier u"
         required: true
         type: "integer"
         format: "int64"
@@ -543,7 +543,7 @@ paths:
       parameters:
       - name: "patientId"
         in: "path"
-        description: "Patient Identifier"
+        description: "Patient Identifier u"
         required: true
         type: "integer"
         format: "int64"
@@ -784,7 +784,7 @@ parameters:
   patientId:
     name: "patientId"
     in: "path"
-    description: "Patient Identifier"
+    description: "Patient Identifier u"
     required: true
     type: "integer"
     format: "int64"
